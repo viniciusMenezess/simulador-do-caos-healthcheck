@@ -1,0 +1,18 @@
+services: 
+  simulador-do-caos: 
+    container_name: simulador-do-caos
+    image: vznn/simulador-do-caos:v2
+    build: 
+      context: ./simulador-do-caos/src
+      dockerfile: Dockerfile
+    ports: 
+      - "8080:3000"
+    restart: always #or on-failure (se eu quiser limitar o numero de tentativas, por exemplo restart: on-failure:5); 
+    #ou se eu quiser que o container reinicie a menos que eu pare ele manualmente, uso unless-stopped. 
+    healthcheck: 
+     test: ["CMD", "curl", "-f", "http://localhost:3000/health"] #verifica se o endpoint de health esta respondendo
+     interval: 30s #tempo entre cada tentativa de healthcheck
+     timeout: 10s #tempo maximo que o healthcheck pode levar
+     retries: 2 #numero de tentativas antes de considerar o container como unhealthy
+     start_period: 30s #tempo que o container tem para iniciar antes de comecar a fazer healthchecks
+     disable: false #se true, desabilita o healthcheck
