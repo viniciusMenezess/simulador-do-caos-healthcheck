@@ -16,3 +16,10 @@ services:
      retries: 2 #numero de tentativas antes de considerar o container como unhealthy
      start_period: 30s #tempo que o container tem para iniciar antes de comecar a fazer healthchecks
      disable: false #se true, desabilita o healthcheck
+    cpuset: "0"
+    memswap_limit: 512M
+    deploy: 
+      resources: 
+        limits: 
+          cpus: '0.50'
+          memory: 512M
